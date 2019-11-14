@@ -43,7 +43,7 @@ pcNum% = 0
 WHILE (newBro$ = "Y")
     INPUT "Input New Bro's Background (e.g. legend_nun, or tailor, etc, DON'T INCLUDE _background): ", newBackground$
     newBackground$ = RTRIM$(LTRIM$(newBackground$))
-    newBackground$ = newBackgruond$ + "_background"
+    newBackground$ = newBackground$ + "_background"
     INPUT "Input Bro's Level: ", newLevel%
     newLevelUp% = newLevel% - 1
     PCCHECK:
@@ -140,14 +140,13 @@ PRINT #1, "     }"
 PRINT #1, "     while (1);"
 PRINT #1, ""
 PRINT #1, "     this.World.State.m.Player = this.World.spawnEntity(" + quote$ + "scripts/entity/world/player_party" + quote$ + ", randomVillageTile.Coords.X, randomVillageTile.Coords.Y);"
-PRINT #1, "     this.World.Assets.updateLook(6);"
 PRINT #1, "     this.World.getCamera().setPos(this.World.State.m.Player.getPos());"
 PRINT #1, "     this.Time.scheduleEvent(this.TimeUnit.Real, 1000, function ( _tag )"
 PRINT #1, "     {"
 PRINT #1, "         this.Music.setTrackList(["
-PRINT #1, quote$ + "music/noble_02.ogg" + quote$
+PRINT #1, quote$ + "music/civilians_01.ogg" + quote$
 PRINT #1, "         ], this.Const.Music.CrossFadeTime);"
-PRINT #1, "         this.World.Events.fire(" + quote$ + "event.lone_wolf_scenario_intro" + quote$ + ");"
+PRINT #1, "         this.World.Events.fire(" + quote$ + "event.legend_random_party_scenario_intro" + quote$ + ");"
 PRINT #1, "     }, null);"
 PRINT #1, " }"
 
