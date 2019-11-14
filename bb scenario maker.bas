@@ -81,8 +81,8 @@ WHILE (newBro$ = "Y")
     newBro$ = INPUT$(1)
     newBro$ = UCASE$(newBro$)
     IF newBro$ <> "Y" AND newBro$ <> "N" THEN GOTO NBC
-
-    broNum% = broNum% + 1
+    IF newBro$ = "Y" THEN broNum% = broNum% + 1
+    IF broNum% > 27 THEN newBro$ = "N"
 
 WEND
 
