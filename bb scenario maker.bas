@@ -76,7 +76,25 @@ WHILE (newBro$ = "Y")
         PRINT #1, cBro$ + ".setVeteranPerks(5);"
     END IF
 
-
+    PERKQ:
+    PRINT "Add perks to current brother? (y/n): THESE MAY NOT SHOW UP IN THE PERK TREE IF NOT GENERATED BUT WILL STILL BE THERE"
+    perkYN$ = INPUT$(1)
+    perkYN$ = UCASE$(perkYN$)
+    IF perkYN$ = "Y" THEN
+        PRINT "Perk name to add? Please DO write the full name (e.g. perk_nimble)! "
+        PRINT "Some perks start with perk_legend, legend, and perk, so you must write the FULL name."
+        PRINT "DON'T INCLUD .NUT OR .CNUT"
+        WHILE (perkYN$ = "Y")
+            INPUT "new perk: type quit to stop adding perks", perk$
+            perk$ = LCASE$(perk$)
+            IF perk$ = "quit" THEN GOTO PERKBREAK
+            PRINT #1, cBro$ + ".getSkills().add(this.new(" + quote$ + "scripts/skills/perks/" + perk$ + quote$ + "));"
+        WEND
+    ELSEIF UCASE$(perkYN$) = "N" THEN
+        GOTO PERKBREAK
+    ELSE GOTO PERKQ
+    END IF
+    PERKBREAK:
     NBC:
     PRINT "Input new bro? y/n?: "
     newBro$ = INPUT$(1)
@@ -86,6 +104,34 @@ WHILE (newBro$ = "Y")
     IF broNum% > 27 THEN newBro$ = "N"
 
 WEND
+
+PRINT #1, "this.World.Assets.getStash().add(this.new(" + quote$ + "scripts/items/supplies/bread_item" + quote$ + "));"
+PRINT #1, "this.World.Assets.getStash().add(this.new(" + quote$ + "scripts/items/supplies/bread_item" + quote$ + "));"
+
+PRINT "Include any SUPPLY items (bread, mead, wine, anything in scripts/items/supplies) ? You start with 2 bread automatically. These do not include armors (y/n)"
+itemYN$ = INPUT$(1)
+itemYN$ = UCASE$(itemYN$)
+WHILE (itemYN$ = "Y")
+    INPUT "Item name (DO NOT include _item). Type quit to stop adding items: ", item$
+    item$ = LCASE$(LTRIM$(RTRIM$(item$)))
+    IF item$ = "quit" GOTO ITEMBREAK
+    PRINT #1, "this.World.Assets.getStash().add(this.new(" + quote$ + "scripts/items/supplies/" + item$ + "_item" + quote$ + "));"
+WEND
+ITEMBREAK:
+
+
+PRINT "Include any TRADE items (salt, dies, anything in scripts/items/trade) ? You start with 2 bread automatically. These do not include armors (y/n)"
+itemYN$ = INPUT$(1)
+itemYN$ = UCASE$(itemYN$)
+WHILE (itemYN$ = "Y")
+    INPUT "Item name (DO NOT include _item). Type quit to stop adding items: ", item$
+    item$ = LCASE$(LTRIM$(RTRIM$(item$)))
+    IF item$ = "quit" GOTO TRADEBREAK
+    PRINT #1, "this.World.Assets.getStash().add(this.new(" + quote$ + "scripts/items/trade/" + item$ + "_item" + quote$ + "));"
+WEND
+TRADEBREAK:
+
+
 
 PRINT #1, "this.World.Assets.m.Money = this.World.Assets.m.Money / 2;"
 PRINT #1, "this.World.Assets.m.Ammo = this.World.Assets.m.Ammo / 2;"
