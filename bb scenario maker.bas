@@ -1,3 +1,4 @@
+WIDTH 100, 20
 PRINT "Do not include _scenario in the scenario name."
 INPUT "Input Scenario FILE Name (THIS IS NOT THE DISPLAY NAME): ", scenario$
 scenario$ = LTRIM$(RTRIM$(scenario$))
@@ -77,15 +78,17 @@ WHILE (newBro$ = "Y")
     END IF
 
     PERKQ:
-    PRINT "Add perks to current brother? (y/n): THESE MAY NOT SHOW UP IN THE PERK TREE IF NOT GENERATED BUT WILL STILL BE THERE"
+    PRINT "Add perks to current brother? (e.g. nimble) (y/n)? THESE MAY NOT SHOW UP IN THE PERK TREE IF NOT GENERATED BUT WILL STILL BE THERE."
+    PRINT "Include here all universal perks too (e.g. how seer gives everyone student, include here the perk_student)"
+    PRINT "Later will have an onHire() perk addition, but this will not affect starting brothers!! Add starters perks here!!"
     perkYN$ = INPUT$(1)
     perkYN$ = UCASE$(perkYN$)
     IF perkYN$ = "Y" THEN
         PRINT "Perk name to add? Please DO write the full name (e.g. perk_nimble)! "
         PRINT "Some perks start with perk_legend, legend, and perk, so you must write the FULL name."
-        PRINT "DON'T INCLUD .NUT OR .CNUT"
+        PRINT "DON'T INCLUDE .NUT OR .CNUT"
         WHILE (perkYN$ = "Y")
-            INPUT "new perk: type quit to stop adding perks", perk$
+            INPUT "new perk: type quit to stop adding perks: ", perk$
             perk$ = LCASE$(perk$)
             IF perk$ = "quit" THEN GOTO PERKBREAK
             PRINT #1, cBro$ + ".getSkills().add(this.new(" + quote$ + "scripts/skills/perks/" + perk$ + quote$ + "));"
@@ -95,6 +98,28 @@ WHILE (newBro$ = "Y")
     ELSE GOTO PERKQ
     END IF
     PERKBREAK:
+
+    TRAITQ:
+    PRINT "Add traits to current brother? (e.g. dastard) (y/n)? "
+    traitYN$ = INPUT$(1)
+    traitYN$ = UCASE$(traitYN$)
+    IF traitYN$ = "Y" THEN
+        PRINT "Trait name to add? DON'T write the _trait at the end! "
+        PRINT "Some but very few traits start with `legend_`"
+        PRINT "DON'T INCLUDE .NUT OR .CNUT"
+        WHILE (traitYN$ = "Y")
+            INPUT "new trait: type quit to stop adding perks: ", trait$
+            trait$ = LCASE$(trait$)
+            IF trait$ = "quit" THEN GOTO TRAITBREAK
+            PRINT #1, cBro$ + ".getSkills().add(this.new(" + quote$ + "scripts/skills/traits/" + trait$ + "_trait" + quote$ + "));"
+        WEND
+    ELSEIF UCASE$(traitYN$) = "N" THEN
+        GOTO TRAITBREAK
+    ELSE GOTO TRAITQ
+    END IF
+    TRAITBREAK:
+
+
     NBC:
     PRINT "Input new bro? y/n?: "
     newBro$ = INPUT$(1)
@@ -214,4 +239,24 @@ IF (hasPC% > 0) THEN
     PRINT #1, ""
 END IF
 
+PERKTREEQ:
+PRINT "Include extra perks to every hired person? (e.g. how seer gives everyone student)? (y/n)"
+pTree$ = INPUT$(1)
+pTree$ = LCASE$(pTree$)
+IF pTree$ = "y" THEN
+
+    PRINT #1, "function onHiredByScenario( bro )"
+    PRINT #1, " {"
+    PRINT "Input the perk name: e.g. perk_nimble, or perk_student"
+    WHILE (pTree$ = "y")
+        INPUT "Perk Name? 'quit' to quit: ", pdef$
+        IF LCASE$(pdef$) = "quit" THEN PRINT #1, "}": GOTO PERKTREEBREAK
+        PRINT #1, "bro.getSkills().add(this.new(" + quote$ + "scripts/skills/perks/" + pdef$ + quote$ + "));"
+    WEND
+
+ELSEIF pTree$ = "n" THEN GOTO PERKTREEBREAK
+ELSE GOTO PERKTREEQ
+END IF
+
+PERKTREEBREAK:
 PRINT #1, "});" 'End of file
