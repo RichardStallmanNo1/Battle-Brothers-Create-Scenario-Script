@@ -23,7 +23,7 @@ PRINT #1, "    this.m.Name = " + quote$ + dispName$ + quote$ + ";"
 
 PRINT #1, "    this.m.Description = " + quote$ + "[p=c][img]gfx/ui/events/event_142.png[/img][/p] \n Placeholder Description. Change in function create()." + quote$ + ";"
 PRINT #1, "    this.m.Difficulty = 2;"
-INPUT "Input order number (anything after 20 is probably fine, try not to overlap): ", order%
+INPUT "Input order number (anything after 30 is probably fine, try not to overlap): ", order%
 PRINT #1, "    this.m.Order = " + STR$(order%) + ";"
 PRINT #1, "    this.m.IsFixedLook = true;"
 PRINT #1, "}"
