@@ -130,6 +130,30 @@ WHILE (newBro$ = "Y")
 
 WEND
 
+PRINT #1, "        foreach( bro in this.World.getPlayerRoster().getAll() )"
+PRINT #1, "		{"
+PRINT #1, "			local val = this.World.State.addNewID(bro);"
+PRINT #1, "			bro.m.CompanyID = val;"
+PRINT #1, "		}"
+PRINT #1, ""
+PRINT #1, "		if (this.World.LegendsMod.Configs().RelationshipsEnabled())"
+PRINT #1, "		{"
+PRINT #1, "			local avgAlignment = 0;"
+PRINT #1, "			foreach (bro in this.World.getPlayerRoster().getAll())"
+PRINT #1, "			{"
+PRINT #1, "				if (bro.getAlignment() <= this.Const.LegendMod.Alignment.NeutralMin)"
+PRINT #1, "				{"
+PRINT #1, "					avgAlignment += (bro.getAlignment() - this.Const.LegendMod.Alignment.NeutralMin);"
+PRINT #1, "				}"
+PRINT #1, "				else if (bro.getAlignment() >= this.Const.LegendMod.Alignment.NeutralMax)"
+PRINT #1, "				{"
+PRINT #1, "					avgAlignment += (bro.getAlignment() - this.Const.LegendMod.Alignment.NeutralMax);"
+PRINT #1, "				}"
+PRINT #1, "    		}"
+PRINT #1, "			avgAlignment *= (10 / this.World.getPlayerRoster().getSize());"
+PRINT #1, "			this.World.Assets.addMoralReputation(avgAlignment);"
+PRINT #1, "		}"
+
 PRINT #1, "this.World.Assets.getStash().add(this.new(" + quote$ + "scripts/items/supplies/bread_item" + quote$ + "));"
 PRINT #1, "this.World.Assets.getStash().add(this.new(" + quote$ + "scripts/items/supplies/bread_item" + quote$ + "));"
 
@@ -219,6 +243,16 @@ PRINT #1, quote$ + "music/civilians_01.ogg" + quote$
 PRINT #1, "         ], this.Const.Music.CrossFadeTime);"
 PRINT #1, "         this.World.Events.fire(" + quote$ + "event.legend_random_party_scenario_intro" + quote$ + ");"
 PRINT #1, "     }, null);"
+
+
+PRINT #1, "        foreach (b in this.World.getPlayerRoster().getAll())"
+PRINT #1, "		{"
+PRINT #1, "			foreach (add in this.World.getPlayerRoster().getAll())"
+PRINT #1, "			{"
+PRINT #1, "				b.changeActiveRelationship(add, this.Math.rand(0, 10));"
+PRINT #1, "			}"
+PRINT #1, "		}"
+
 PRINT #1, " }"
 
 IF (hasPC% > 0) THEN
